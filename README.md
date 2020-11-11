@@ -43,5 +43,16 @@ Documentation for Kafka REST API: https://docs.confluent.io/current/kafka-rest/a
 
 REST interface to Schema Registry.
 
+Documentation for Schema Registry API: https://docs.confluent.io/current/schema-registry/develop/api.html
+
++ Protocol: HTTP
++ Authentication: None
+
+### Port 8080 - NiFi
+
+NiFi user interface.
+
+http://localhost:8080/nifi 
+
 + Protocol: HTTP
 + Authentication: None

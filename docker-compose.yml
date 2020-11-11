@@ -51,6 +51,7 @@ services:
     container_name: rest-proxy
     depends_on:
       - kafka
+      - schema-registry
     networks:
       - docker-kafka-nifi-schemaregistry
     hostname: rest-proxy
@@ -63,6 +64,25 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_REST_SECURITY_PROTOCOL: "PLAINTEXT"
       KAFKA_REST_CLIENT_SECURITY_PROTOCOL: "PLAINTEXT"
+
+  nifi:
+    image: apache/nifi:latest
+    container_name: nifi
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
+    networks:
+      - docker-kafka-nifi-schemaregistry
+    hostname: nifi
+    ports:
+      - 8080:8080
+    environment:
+      - NIFI_WEB_HTTP_PORT=8080
+      - NIFI_CLUSTER_IS_NODE=true
+      - NIFI_CLUSTER_NODE_PROTOCOL_PORT=8082
+      - NIFI_ZK_CONNECT_STRING=zookeeper:2181
+      - NIFI_ELECTION_MAX_WAIT=1 min
 
 # Use dedicated network that will be discarded with docker-compose down
 networks:
